@@ -1,0 +1,65 @@
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\bin\Debug\FitnessForms.exe.config
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\bin\Debug\FitnessForms.exe
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\bin\Debug\FitnessForms.pdb
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.csprojResolveAssemblyReference.cache
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.FormMain.resources
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Properties.Resources.resources
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Templates.FormDetail.resources
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Templates.FormGrid.resources
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.csproj.GenerateResource.Cache
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.exe
+c:\users\marcel jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.pdb
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormClientGrid.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormClientDetail.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTicketDetail.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTicketGridAll.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTicketGridTop.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTrainingGrid.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormLockerDetail.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormLockerGrid.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTrainerDetail.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTrainerGrid.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormCardDetail.resources
+C:\Users\Marcel Jurišta\documents\visual studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormCardGrid.resources
+C:\Users\Marcel Jurišta\Documents\Visual Studio 2015\Projects\FitnessForms\FitnessForms\obj\Debug\FitnessForms.csproj.CoreCompileInputs.cache
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.csprojResolveAssemblyReference.cache
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.FormMain.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormCardDetail.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormCardGrid.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormClientDetail.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormClientGrid.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormLockerDetail.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormLockerGrid.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTicketDetail.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTicketGridAll.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTicketGridTop.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.FormTrainingGrid.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Properties.Resources.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Templates.FormDetail.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Templates.FormGrid.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.csproj.GenerateResource.Cache
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.exe
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.pdb
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\FitnessForms.exe.config
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\FitnessForms.exe
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\FitnessForms.pdb
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\Connective.exe
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\Connective.pdb
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.ChangeCredit.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.TrainingEnd.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.TrainingStart.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\obj\Debug\FitnessForms.Forms.Login.resources
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.Helpers.dll
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.Mvc.dll
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.Razor.dll
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.WebPages.dll
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.Helpers.xml
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.Mvc.xml
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.Razor.xml
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.WebPages.xml
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\Marcel Jurišta\source\repos\FitnessForms\FitnessForms\bin\Debug\System.Web.WebPages.Razor.xml

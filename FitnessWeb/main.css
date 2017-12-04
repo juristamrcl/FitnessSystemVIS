@@ -1,0 +1,271 @@
+﻿body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fafafa;
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans';
+}
+form{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.loginWrapper{
+    display: flex;
+    width: auto;
+    height: auto;
+    margin-top: 200px;
+    flex-direction: column;
+    padding: 40px;
+    background: white;
+}
+.loginInput{
+    display: flex;
+    margin-top: 10px;
+    height: 20px;
+    padding-left: 5px;
+}
+#loginTopText{
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #2DB870;
+}
+#confirmButton{
+    display: flex;
+    height: 30px;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
+    background: #2DB870;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.materialCard{
+  box-shadow: 0 1px 1px rgba(0,0,0,0.23);
+}
+.content{
+    margin-top: 30px;
+    display: flex;
+    width: 90%;
+}
+
+.customHeader{
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2DB870;
+    color: white;
+}
+
+#navHeader{
+    position: absolute;
+    left: 100px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+ul{
+    list-style-type: none;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+}
+li{
+    display: inline-block;
+    margin-left: 20px;
+}
+
+a{
+     text-decoration: none;
+     color: white;
+     font-size: 0.9em;
+}
+.menuItem:hover{
+    font-size: 0.95em;
+    font-weight: bold;
+}
+.menuItems{
+    position: absolute;
+    right: 100px;
+}
+#logoutButton{
+    background: white;
+    color: #2DB870;
+    border-radius: 0.2em;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.contentCard{
+    background: white;
+    width: 40%;
+    height: auto;
+    color: grey;
+    padding: 10px 0 50px 0;
+    position: relative;
+    margin-right: 20px;
+}
+.contentCardTraining{
+    background: white;
+    min-width: 300px;
+    width: auto;
+    height: auto;
+    color: grey;
+    padding: 10px 0 50px 0;
+    position: relative;
+    margin-right: 20px;
+}
+.rateTopText{
+    font-size: 1.3em;
+    width: 100%;
+    padding-bottom: 10px;
+    margin-left: 20px;
+}
+.line{
+    width: 100%;
+    height: 1px;
+    margin-bottom: 30px;
+}
+.cardLabel{
+    margin-left: 20px;
+    font-size: 0.95em;
+}
+.cardLine {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.cardContentWrapper{
+    width: 100%;
+    height:auto;
+}
+.cardTrainings{
+    width: auto;
+    height:auto;
+    padding: 20px;
+}
+.trainerDropdown{
+    position: absolute;
+    right: 20px;
+}
+#starImage{
+    width: 20px;
+    height: auto;
+    margin-bottom: -3px;
+}
+#starRating{
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+}
+.ratingText{
+    width: 90%;
+    min-height: 100px;
+    max-height: 150px;
+    margin: 20px 0 0 20px;
+    align-self: center;
+    resize: vertical;
+}
+.rateConfirmButton{
+    position: absolute;
+    height: 30px;
+    width: 100px;
+    right: 20px;
+    justify-content: center;
+    background: #2DB870;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.dateConfirmButton{
+    height: 30px;
+    width: 100px;
+    right: 20px;
+    justify-content: center;
+    background: #2DB870;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.dateResetButton{
+    background: grey;
+}
+select{
+    height: 23px;
+}
+.ratedTrainer{
+    position: absolute;
+    right: 20px;
+}
+.thankRating{
+    color:#2DB870;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+.ratingLabelMargin{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.blocked{
+    display: inline-block;
+}
+.averageRating{
+    position: absolute;
+    right: 20px;
+}
+.clientsRated{
+    position: absolute;
+    right: 20px;
+}
+.rightCardElement{
+    position: absolute;
+    right: 20px;
+}
+.profileInput{
+    display: inline-block;
+    height: 20px;
+    padding-left: 5px;
+}
+.customInput{
+    display: inline-block;
+    height: 23px;
+    padding-left: 5px;
+}
+.trainingsGridView{
+    font-size: 0.9em;
+}
+.calendar{
+    display: inline-block;
+    width: auto;
+}
+.calendarTo{
+    display: inline-block;
+    width: auto;
+}
+.centeredLine{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.firstLabel{
+    margin: 0 100px 0 0;
+}
+.divideDiv{
+    width: 30px;
+}
+.filterLabel{
+    color:#2DB870;
+    margin-left: 0;
+}
