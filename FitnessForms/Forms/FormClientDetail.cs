@@ -124,9 +124,12 @@ namespace FitnessForms.Forms
 
         protected override bool DeleteRecord()
         {
-            DiscountCard c = DiscountCardGateway.Select((int)client.CardId);
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+
+            DiscountCard c = dg.Select((int)client.CardId);
             c.ClientId = null;
-            DiscountCardGateway.Update(c);
+            dg.Update(c);
             ClientFactory clientFactory = new ClientFactory();
             ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
             cg.Delete(client.RecordId);

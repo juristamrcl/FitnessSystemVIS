@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using Connective.TableGateway;
 using Connective.Tables;
+using Connective.Factory;
 
 namespace FitnessForms.Forms
 {
@@ -18,11 +19,13 @@ namespace FitnessForms.Forms
         }
         public bool OpenRecord(object primaryKey, object toGender)
         {
+            LockerFactory lockerFactory = new LockerFactory();
+
             if (primaryKey != null)
             {
                 int idLocker = (int)primaryKey;
                 string genderLocker = (string)toGender;
-                locker = LockerGateway.Select(idLocker, genderLocker);
+                locker = lockerFactory.GetLocker().Select(idLocker, genderLocker);
                 newRecord = false;
             }
             else
@@ -91,16 +94,17 @@ namespace FitnessForms.Forms
         }
         protected override bool SaveRecord()
         {
+            LockerFactory lockerFactory = new LockerFactory();
 
             if (GetData())
             {
                 if (newRecord)
                 {
-                    LockerGateway.Insert(locker);
+                    lockerFactory.GetLocker().Insert(locker);
                 }
                 else
                 {
-                    LockerGateway.Update(locker);
+                    lockerFactory.GetLocker().Update(locker);
                 }
                 return true;
             }
@@ -112,7 +116,9 @@ namespace FitnessForms.Forms
 
         protected override bool DeleteRecord()
         {
-            LockerGateway.Delete(locker.RecordId);
+            LockerFactory lockerFactory = new LockerFactory();
+
+            lockerFactory.GetLocker().Delete(locker.RecordId);
             return true;
         }
     }

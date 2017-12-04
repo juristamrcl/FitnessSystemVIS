@@ -4,20 +4,36 @@ using System.Data.SqlClient;
 using System.Linq;
 using Connective.Tables;
 using Connective.Conn;
+using Connective.Abstract.Interface;
 
 namespace Connective.TableGateway
 {
-    public class TrainerGateway
+    public class TrainerGateway<T> : TrainerGatewayInterface<T>
+        where T : Trainer
     {
-        public static String SQL_SELECT = "SELECT * FROM Trainer";
-        public static String SQL_SELECT_ID = "SELECT * FROM Trainer WHERE trainer_id=@trainer_id";
-        public static String SQL_SELECT_AVG = "SELECT SUM(tr.rating_number) / COUNT(tr.rating_number), COUNT(t.trainer_id) FROM trainer t JOIN trainer_rating tr ON t.trainer_id = tr.trainer_id WHERE t.trainer_id = @trainer_id;";
-        public static String SQL_INSERT = "INSERT INTO Trainer VALUES (@specialization, @name, @surname, @mail, @license)";
-        public static String SQL_UPDATE = "UPDATE Trainer SET specialization=@specialization, name=@name, surname=@surname, mail=@mail, license=@license WHERE trainer_id=@trainer_id";
-        public static String SQL_DELETE_ID = "DELETE FROM Trainer WHERE trainer_id=@trainer_id";
-        public static String SQL_DELETE = "DELETE FROM Trainer";
+        private static TrainerGateway<Trainer> instance;
+        private TrainerGateway() { }
 
-        private static void PrepareCommand(SqlCommand command, Trainer trainer)
+        public static TrainerGateway<Trainer> Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TrainerGateway<Trainer>();
+                }
+                return instance;
+            }
+        }
+        public String SQL_SELECT = "SELECT * FROM Trainer";
+        public String SQL_SELECT_ID = "SELECT * FROM Trainer WHERE trainer_id=@trainer_id";
+        public String SQL_SELECT_AVG = "SELECT SUM(tr.rating_number) / COUNT(tr.rating_number), COUNT(t.trainer_id) FROM trainer t JOIN trainer_rating tr ON t.trainer_id = tr.trainer_id WHERE t.trainer_id = @trainer_id;";
+        public String SQL_INSERT = "INSERT INTO Trainer VALUES (@specialization, @name, @surname, @mail, @license)";
+        public String SQL_UPDATE = "UPDATE Trainer SET specialization=@specialization, name=@name, surname=@surname, mail=@mail, license=@license WHERE trainer_id=@trainer_id";
+        public String SQL_DELETE_ID = "DELETE FROM Trainer WHERE trainer_id=@trainer_id";
+        public String SQL_DELETE = "DELETE FROM Trainer";
+
+        private void PrepareCommand(SqlCommand command, Trainer trainer)
         {
             command.Parameters.AddWithValue("@specialization", trainer.Specialization);
             command.Parameters.AddWithValue("@name", trainer.Name);
@@ -25,7 +41,7 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@mail", trainer.Mail == null ? DBNull.Value : (object)trainer.Mail);
             command.Parameters.AddWithValue("@license", trainer.License == null ? DBNull.Value : (object)trainer.License);
         }
-        private static void PrepareCommandU(SqlCommand command, Trainer trainer)
+        private void PrepareCommandU(SqlCommand command, Trainer trainer)
         {
             command.Parameters.AddWithValue("@trainer_id", trainer.RecordId);
             command.Parameters.AddWithValue("@specialization", trainer.Specialization);
@@ -35,7 +51,7 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@license", trainer.License == null ? DBNull.Value : (object)trainer.License);
         }
 
-        public static int Insert(Trainer Trainer)
+        public int Insert(T Trainer)
         {
             Database db = new Database();
             db.Connect();
@@ -46,7 +62,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static int Update(Trainer Trainer)
+        public int Update(T Trainer)
         {
             Database db = new Database();
             db.Connect();
@@ -57,7 +73,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static Collection<Trainer> Select()
+        public Collection<T> Select()
         {
             Database db = new Database();
             db.Connect();
@@ -65,13 +81,13 @@ namespace Connective.TableGateway
             SqlCommand command = db.CreateCommand(SQL_SELECT);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Trainer> Categories = Read(reader);
+            Collection<T> Categories = Read(reader);
 
             db.Close();
             return Categories;
         }
 
-        public static Trainer Select(int id)
+        public T Select(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -80,8 +96,8 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@trainer_id", id);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Trainer> trainers = Read(reader);
-            Trainer trainer = null;
+            Collection<T> trainers = Read(reader);
+            T trainer = null;
             if (trainers.Count == 1)
             {
                 trainer = trainers[0];
@@ -91,7 +107,7 @@ namespace Connective.TableGateway
             return trainer;
         }
 
-        public static decimal[] SelectAVG(int id)
+        public decimal[] SelectAVG(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -106,7 +122,7 @@ namespace Connective.TableGateway
             return answ;
         }
 
-        public static int Delete(int id)
+        public int Delete(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -118,7 +134,7 @@ namespace Connective.TableGateway
             db.Close();
             return ret;
         }
-        public static int Delete()
+        public int Delete()
         {
             Database db = new Database();
             db.Connect();
@@ -130,9 +146,9 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        private static Collection<Trainer> Read(SqlDataReader reader)
+        private Collection<T> Read(SqlDataReader reader)
         {
-            Collection<Trainer> trainers = new Collection<Trainer>();
+            Collection<T> trainers = new Collection<T>();
 
             while (reader.Read())
             {
@@ -151,12 +167,12 @@ namespace Connective.TableGateway
                 {
                     trainer.License = reader.GetString(i);
                 }
-                trainers.Add(trainer);
+                trainers.Add((T)trainer);
             }
             return trainers;
         }
 
-        private static decimal[] ReadAvg(SqlDataReader reader)
+        private decimal[] ReadAvg(SqlDataReader reader)
         {
             decimal[] answ = { 0M, 0M };
             int i = -1;

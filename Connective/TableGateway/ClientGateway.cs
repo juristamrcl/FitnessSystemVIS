@@ -26,16 +26,16 @@ namespace Connective.TableGateway
             }
         }
 
-    public static String SQL_CHECK_LOGIN = "SELECT DISTINCT * FROM Client WHERE mail=@mail AND password=@password";
-        public static String SQL_SELECT = "SELECT * FROM Client";
-        public static String SQL_SELECT_ID = "SELECT * FROM Client WHERE client_id=@client_id";
-        public static String SQL_SELECT_LOCKER = "SELECT COUNT(client_id) FROM client WHERE favourite_locker = @favourite_locker;";
-        public static String SQL_SELECT_TRAININGS = "SELECT t.training_id, t.time_from, t.time_to, t.locker_id, tr.name, tr.surname FROM training t JOIN trainer tr ON tr.trainer_id = t.trainer_id AND t.client_id = @client_id";
-        public static String SQL_INSERT = "INSERT INTO Client VALUES (@name, @surname, @mail, @gender, @card_id, @favourite_locker, @password)";
-        public static String SQL_UPDATE = "UPDATE Client SET name=@name, surname=@surname, mail=@mail, gender=@gender, card_id=@card_id, favourite_locker=@favourite_locker, password=@password WHERE client_id=@client_id";
-        public static String SQL_DELETE_ID = "DELETE FROM Client WHERE client_id=@client_id";
-        public static String SQL_DROP_CONST = "ALTER TABLE client DROP CONSTRAINT Relation_6;";
-        public static String SQL_DELETE = "DELETE FROM Client";
+        public static String SQL_CHECK_LOGIN = "SELECT DISTINCT * FROM Client WHERE mail=@mail AND password=@password";
+        public String SQL_SELECT = "SELECT * FROM Client";
+        public String SQL_SELECT_ID = "SELECT * FROM Client WHERE client_id=@client_id";
+        public String SQL_SELECT_LOCKER = "SELECT COUNT(client_id) FROM client WHERE favourite_locker = @favourite_locker;";
+        public String SQL_SELECT_TRAININGS = "SELECT t.training_id, t.time_from, t.time_to, t.locker_id, tr.name, tr.surname FROM training t JOIN trainer tr ON tr.trainer_id = t.trainer_id AND t.client_id = @client_id";
+        public String SQL_INSERT = "INSERT INTO Client VALUES (@name, @surname, @mail, @gender, @card_id, @favourite_locker, @password)";
+        public String SQL_UPDATE = "UPDATE Client SET name=@name, surname=@surname, mail=@mail, gender=@gender, card_id=@card_id, favourite_locker=@favourite_locker, password=@password WHERE client_id=@client_id";
+        public String SQL_DELETE_ID = "DELETE FROM Client WHERE client_id=@client_id";
+        public String SQL_DROP_CONST = "ALTER TABLE client DROP CONSTRAINT Relation_6;";
+        public String SQL_DELETE = "DELETE FROM Client";
 
         public static String SQL_SELECT_ALL = "SELECT c.client_id, c.name, c.surname, c.mail, c.gender, c.card_id, COUNT (t.client_id) AS Trainings, " +
             "ISNULL((SELECT MAX(minutes_trained) FROM(SELECT DATEDIFF(MINUTE, time_from, time_to) AS minutes_trained FROM Training t1 " +

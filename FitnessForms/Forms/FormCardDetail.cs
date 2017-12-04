@@ -3,6 +3,7 @@ using Connective.TableGateway;
 using System;
 using System.Data;
 using System.Linq;
+using Connective.Factory;
 
 namespace FitnessForms.Forms
 {
@@ -18,10 +19,13 @@ namespace FitnessForms.Forms
 
         public override bool OpenRecord(object primaryKey)
         {
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+
             if (primaryKey != null)
             {
                 int idCard = (int)primaryKey;
-                card = DiscountCardGateway.Select(idCard);
+                card = dg.Select(idCard);
                 newRecord = false;
             }
             else
@@ -83,15 +87,18 @@ namespace FitnessForms.Forms
 
         protected override bool SaveRecord()
         {
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+
             if (GetData())
             {
                 if (newRecord)
                 {
-                    DiscountCardGateway.Insert(card);
+                    dg.Insert(card);
                 }
                 else
                 {
-                    DiscountCardGateway.Update(card);
+                    dg.Update(card);
                 }
                 return true;
             }
@@ -103,8 +110,9 @@ namespace FitnessForms.Forms
 
         protected override bool DeleteRecord()
         {
-           
-            DiscountCardGateway.Delete(card.RecordId);
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+            dg.Delete(card.RecordId);
             return true;
         }
     }

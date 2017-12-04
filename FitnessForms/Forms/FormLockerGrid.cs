@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Connective.TableGateway;
 using Connective.Tables;
 using Connective.Backup;
+using Connective.Factory;
 
 namespace FitnessForms.Forms
 {
@@ -17,7 +18,9 @@ namespace FitnessForms.Forms
         }
         protected override void RefreshData()
         {
-            Collection<Locker> lockers = LockerXMLGateway.SelectToObject();
+            LockerFactory lockerFactory = new LockerFactory();
+
+            Collection<Locker> lockers = lockerFactory.GetLocker().Select();
             BindingList<Locker> bindingList = new BindingList<Locker>(lockers);
             lockersGrid.AutoGenerateColumns = false;
             lockersGrid.DataSource = bindingList;

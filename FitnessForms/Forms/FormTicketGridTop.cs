@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Connective.TableGateway;
 using Connective.Tables;
+using Connective.Factory;
 
 namespace FitnessForms.Forms
 {
@@ -16,7 +17,10 @@ namespace FitnessForms.Forms
 
         protected void RefreshData()
         {
-            Collection<TopTicket> tickets = TicketGateway.SelectTOP5();
+            TicketFactory ticketFactory = new TicketFactory();
+            TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
+
+            Collection<TopTicket> tickets = ticketg.SelectTOP5();
             BindingList<TopTicket> bindingList = new BindingList<TopTicket>(tickets);
             ticketsGrid.AutoGenerateColumns = false;
             ticketsGrid.DataSource = bindingList;

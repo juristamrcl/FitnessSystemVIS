@@ -33,10 +33,12 @@ namespace FitnessForms.Forms
 
         private void acceptButton_Click(object sender, System.EventArgs e)   
         {
-            Training tr = TrainingGateway.SelectLast(clients[comboClient.SelectedIndex].RecordId);
+            TrainingFactory trainingFactory = new TrainingFactory();
+            TrainingGateway<Training> tg = (TrainingGateway<Training>)trainingFactory.GetTraining();
+            Training tr = tg.SelectLast(clients[comboClient.SelectedIndex].RecordId);
             tr.TimeTo = DateTime.Now;
 
-            TrainingGateway.Update(tr);
+            tg.Update(tr);
             MessageBox.Show("Training was ended Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Dispose();
         }

@@ -8,21 +8,26 @@ using Connective.TableGateway;
 using Connective.Tables;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using Connective.Factory;
 
 namespace FitnessWeb
 {
     public partial class Trainings : System.Web.UI.Page
     {
         bool filtered = false;
+
         Collection<ClientTraining> trainings;
         Collection<ClientTraining> filteredTrainings = new Collection<ClientTraining>();
         protected void Page_Load(object sender, EventArgs e)
         {
+            ClientFactory clientFactory = new ClientFactory();
+            ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+
             if (Session["ID"] == null)
             {
                 Response.Redirect("~/Login.aspx");
             }
-            trainings = ClientGateway.SelectTrainings(int.Parse(Session["ID"].ToString()));
+            trainings = cg.SelectTrainings(int.Parse(Session["ID"].ToString()));
 
             if (Session["filter"] != null)
             {

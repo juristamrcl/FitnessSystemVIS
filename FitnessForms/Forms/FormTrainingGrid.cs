@@ -20,33 +20,41 @@ namespace FitnessForms.Forms
 
         protected void RefreshData()
         {
-            Collection<Training> trainings = TrainingGateway.Select();
+            TrainingFactory trainingFactory = new TrainingFactory();
+            TrainingGateway<Training> tg = (TrainingGateway<Training>)trainingFactory.GetTraining();
+            TicketFactory ticketFactory = new TicketFactory();
+            TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
+            ClientFactory clientFactory = new ClientFactory();
+            ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+            TrainerFactory trainerFactory = new TrainerFactory();
+            TrainerGateway<Trainer> trainerg = (TrainerGateway<Trainer>)trainerFactory.GetTrainer();
+
+            Collection<Training> trainings = tg.Select();
             Collection<TrainGrid> trainGrid = new Collection<TrainGrid>();
 
             foreach(Training t in trainings)
             {
-                TrainGrid tg = new TrainGrid();
-                tg.LockerId = t.LockerId;
-                tg.ToGender = t.ToGender;
-                tg.Start = t.TimeFrom;
-                tg.End = t.TimeTo;
+                TrainGrid tgrid = new TrainGrid();
+                tgrid.LockerId = t.LockerId;
+                tgrid.ToGender = t.ToGender;
+                tgrid.Start = t.TimeFrom;
+                tgrid.End = t.TimeTo;
                 // using factory to get data
-                ClientFactory clientFactory = new ClientFactory();
-                ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+
                 Client c = cg.Select(t.ClientId);
-                tg.ClientName = c.Name + " " + c.Surname;
+                tgrid.ClientName = c.Name + " " + c.Surname;
                 int tempId;
                 if (t.TrainerId.HasValue)
                 {
                     tempId = t.TrainerId.Value;
-                    Trainer tr = TrainerGateway.Select(tempId);
-                    tg.TrainerName = tr.Name + " " + tr.Surname;
+                    Trainer tr = trainerg.Select(tempId);
+                    tgrid.TrainerName = tr.Name + " " + tr.Surname;
                 }
                 else
                 {
-                    tg.TrainerName = "";
+                    tgrid.TrainerName = "";
                 }
-                trainGrid.Add(tg);
+                trainGrid.Add(tgrid);
             }
 
             BindingList<TrainGrid> bindingList = new BindingList<TrainGrid>(trainGrid);

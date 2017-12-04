@@ -8,6 +8,8 @@ using Connective.TableGateway;
 using Connective.Tables;
 using Connective;
 using System.Collections.ObjectModel;
+using Connective.Factory;
+using Connective.Backup;
 
 namespace FitnessWeb
 {
@@ -19,11 +21,18 @@ namespace FitnessWeb
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            ClientFactory clientFactory = new ClientFactory();
+            ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+
+            LockerFactory lockerFactory = new LockerFactory();
+            LockerXMLGateway<Locker> lg = (LockerXMLGateway<Locker>)lockerFactory.GetLocker();
+        
+
             if (Session["ID"] == null)
             {
                 Response.Redirect("~/Login.aspx");
             }
-            client = ClientGateway.Select(int.Parse((Session["ID"].ToString())));
+            client = cg.Select(int.Parse((Session["ID"].ToString())));
             newClient = client;
 
             nameElement.Attributes.Add("placeholder", client.Name);
@@ -38,9 +47,9 @@ namespace FitnessWeb
 
             oldFavouriteLocker.Text = client.Favourite_locker.ToString();
             int locker = (int)client.Favourite_locker;
-            peopleWithLocker.Text = ClientGateway.SelectLockerNumb((client.Favourite_locker != null) ? locker : 1).ToString();
+            peopleWithLocker.Text = cg.SelectLockerNumb((client.Favourite_locker != null) ? locker : 1).ToString();
 
-            lockers = LockerGateway.Select(client.Gender);
+            lockers = lg.Select(client.Gender);
             Collection<string> lockerStrings = new Collection<string>();
 
             foreach (Locker l in lockers)
@@ -59,6 +68,9 @@ namespace FitnessWeb
 
         protected void profileConfirmButton_Click1(object sender, EventArgs e)
         {
+            ClientFactory clientFactory = new ClientFactory();
+            ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+
             bool toInsert = true;
             string errorMessage = "";
             if (!string.IsNullOrWhiteSpace(nameElement.Text))
@@ -96,7 +108,7 @@ namespace FitnessWeb
 
             if (toInsert)
             {
-                ClientGateway.Update(newClient);
+                cg.Update(newClient);
                 Response.Redirect("~/ChangeProfile.aspx");
             }
             else
@@ -107,8 +119,11 @@ namespace FitnessWeb
 
         protected void saveFavouriteLockerClick(object sender, EventArgs e)
         {
+            ClientFactory clientFactory = new ClientFactory();
+            ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+
             client.Favourite_locker = lockers[lockerDropdown.SelectedIndex].RecordId;
-            ClientGateway.Update(client);
+            cg.Update(client);
             Response.Redirect("~/ChangeProfile.aspx");
         }
     }

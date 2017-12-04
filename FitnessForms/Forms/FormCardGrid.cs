@@ -19,7 +19,10 @@ namespace FitnessForms.Forms
 
         protected override void RefreshData()
         {
-            Collection<DiscountCard> cards = DiscountCardGateway.Select();
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+
+            Collection<DiscountCard> cards = dg.Select();
             Collection<ExtendedCard> ecards = new Collection<ExtendedCard>();
 
             foreach(DiscountCard dc in cards)

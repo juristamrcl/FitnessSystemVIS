@@ -3,18 +3,35 @@ using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using Connective.Tables;
 using Connective.Conn;
+using Connective.Abstract;
 
 namespace Connective.TableGateway
 {
-    public class LockerGateway
+    public class LockerGateway<T> : LockerGatewayInterface<T>
+        where T: Locker
     {
-        public static String SQL_SELECT = "SELECT * FROM Locker ORDER BY to_gender, locker_id";
-        public static String SQL_SELECT_ID = "SELECT * FROM Locker WHERE locker_id=@locker_id AND to_gender=@to_gender";
-        public static String SQL_SELECT_GENDER = "SELECT * FROM Locker WHERE to_gender=@to_gender ORDER BY to_gender, locker_id";
-        public static String SQL_INSERT = "INSERT INTO Locker VALUES (@locker_id, @to_gender, @status)";
-        public static String SQL_UPDATE = "UPDATE Locker SET status=@status WHERE locker_id=@locker_id AND to_gender=@to_gender";
-        public static String SQL_DELETE_ID = "DELETE FROM Locker WHERE locker_id=@locker_id AND to_gender=@to_gender";
-        public static String SQL_DELETE = "DELETE FROM Locker";
+        private static LockerGateway<Locker> instance;
+        private LockerGateway() { }
+
+        public static LockerGateway<Locker> Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new LockerGateway<Locker>();
+                }
+                return instance;
+            }
+        }
+
+        public String SQL_SELECT = "SELECT * FROM Locker ORDER BY to_gender, locker_id";
+        public String SQL_SELECT_ID = "SELECT * FROM Locker WHERE locker_id=@locker_id AND to_gender=@to_gender";
+        public String SQL_SELECT_GENDER = "SELECT * FROM Locker WHERE to_gender=@to_gender ORDER BY to_gender, locker_id";
+        public String SQL_INSERT = "INSERT INTO Locker VALUES (@locker_id, @to_gender, @status)";
+        public String SQL_UPDATE = "UPDATE Locker SET status=@status WHERE locker_id=@locker_id AND to_gender=@to_gender";
+        public String SQL_DELETE_ID = "DELETE FROM Locker WHERE locker_id=@locker_id AND to_gender=@to_gender";
+        public String SQL_DELETE = "DELETE FROM Locker";
 
         private static void PrepareCommand(SqlCommand command, Locker locker)
         {
@@ -23,7 +40,7 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@status", locker.Status);
         }
 
-        public static int Insert(Locker Locker)
+        public int Insert(T Locker)
         {
             Database db = new Database();
             db.Connect();
@@ -34,7 +51,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static int Update(Locker Locker)
+        public int Update(T Locker)
         {
             Database db = new Database();
             db.Connect();
@@ -45,7 +62,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static Collection<Locker> Select()
+        public Collection<T> Select()
         {
             Database db = new Database();
             db.Connect();
@@ -53,13 +70,13 @@ namespace Connective.TableGateway
             SqlCommand command = db.CreateCommand(SQL_SELECT);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Locker> lockers = Read(reader);
+            Collection<T> lockers = Read(reader);
 
             db.Close();
             return lockers;
         }
 
-        public static Collection<Locker> Select(string to_gender)
+        public Collection<T> Select(string to_gender)
         {
             Database db = new Database();
             db.Connect();
@@ -69,13 +86,13 @@ namespace Connective.TableGateway
 
             SqlDataReader reader = db.Select(command);
 
-            Collection<Locker> lockers = Read(reader);
+            Collection<T> lockers = Read(reader);
 
             db.Close();
             return lockers;
         }
 
-        public static Locker Select(int id, string gender)
+        public T Select(int id, string gender)
         {
             Database db = new Database();
             db.Connect();
@@ -85,8 +102,8 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@to_gender", gender);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Locker> lockers = Read(reader);
-            Locker locker = null;
+            Collection<T> lockers = Read(reader);
+            T locker = null;
             if (lockers.Count == 1)
             {
                 locker = lockers[0];
@@ -96,7 +113,7 @@ namespace Connective.TableGateway
             return locker;
         }
 
-        public static int Delete(int id)
+        public int Delete(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -109,7 +126,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static int Delete()
+        public int Delete()
         {
             Database db = new Database();
             db.Connect();
@@ -121,9 +138,9 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        private static Collection<Locker> Read(SqlDataReader reader)
+        private Collection<T> Read(SqlDataReader reader)
         {
-            Collection<Locker> lockers = new Collection<Locker>();
+            Collection<T> lockers = new Collection<T>();
 
             while (reader.Read())
             {
@@ -133,7 +150,7 @@ namespace Connective.TableGateway
                 locker.ToGender = reader.GetString(++i);
                 locker.Status = reader.GetString(++i);
 
-                lockers.Add(locker);
+                lockers.Add((T)locker);
             }
             return lockers;
         }

@@ -3,23 +3,40 @@ using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using Connective.Tables;
 using Connective.Conn;
+using Connective.Abstract.Interface;
 
 namespace Connective.TableGateway
 {
-    public class TrainingGateway
+    public class TrainingGateway<T> : TrainingGatewayInterface<T>
+        where T : Training
     {
-        public static String SQL_SELECT = "SELECT * FROM Training";
-        public static String SQL_SELECT_LAST = "SELECT TOP 1 * FROM Training ORDER BY time_from DESC;";
-        public static String SQL_SELECT_LAST_WITH_ID = "SELECT TOP 1 * FROM Training WHERE client_id = @client_id ORDER BY time_from DESC;";
-        public static String SQL_SELECT_ID = "SELECT * FROM Training WHERE training_id=@training_id";
-        public static String SQL_SELECT_CLIENT_ID = "SELECT * FROM Training WHERE client_id=@client_id";
-        public static String SQL_INSERT = "INSERT INTO Training VALUES (@time_from, @time_to, @client_id, @locker_id, @trainer_id, @to_gender)";
-        public static String SQL_UPDATE = "UPDATE Training SET time_from=@time_from, time_to=@time_to, client_id=@client_id, locker_id=@locker_id," +
-            " trainer_id=@trainer_id, to_gender=@to_gender WHERE training_id=@training_id";
-        public static String SQL_DELETE_ID = "DELETE FROM Training WHERE training_id=@training_id";
-        public static String SQL_DELETE = "DELETE FROM Training";
+        private static TrainingGateway<Training> instance;
+        private TrainingGateway() { }
 
-        public static String SQL_DROP = "DROP TABLE Training; DROP TABLE Trainer_rating; TRUNCATE TABLE Trainer; " +
+        public static TrainingGateway<Training> Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TrainingGateway<Training>();
+                }
+                return instance;
+            }
+        }
+
+        public String SQL_SELECT = "SELECT * FROM Training";
+        public String SQL_SELECT_LAST = "SELECT TOP 1 * FROM Training ORDER BY time_from DESC;";
+        public String SQL_SELECT_LAST_WITH_ID = "SELECT TOP 1 * FROM Training WHERE client_id = @client_id ORDER BY time_from DESC;";
+        public String SQL_SELECT_ID = "SELECT * FROM Training WHERE training_id=@training_id";
+        public String SQL_SELECT_CLIENT_ID = "SELECT * FROM Training WHERE client_id=@client_id";
+        public String SQL_INSERT = "INSERT INTO Training VALUES (@time_from, @time_to, @client_id, @locker_id, @trainer_id, @to_gender)";
+        public String SQL_UPDATE = "UPDATE Training SET time_from=@time_from, time_to=@time_to, client_id=@client_id, locker_id=@locker_id," +
+            " trainer_id=@trainer_id, to_gender=@to_gender WHERE training_id=@training_id";
+        public String SQL_DELETE_ID = "DELETE FROM Training WHERE training_id=@training_id";
+        public String SQL_DELETE = "DELETE FROM Training";
+
+        public String SQL_DROP = "DROP TABLE Training; DROP TABLE Trainer_rating; TRUNCATE TABLE Trainer; " +
                 "CREATE TABLE Training(training_id INTEGER NOT NULL identity, time_from DATETIME NOT NULL, time_to DATETIME, client_id INTEGER NOT NULL, locker_id INTEGER NOT NULL, trainer_id INTEGER, to_gender VARCHAR (6) NOT NULL, CONSTRAINT Training_PK PRIMARY KEY NONCLUSTERED(training_id) WITH(ALLOW_PAGE_LOCKS = ON, ALLOW_ROW_LOCKS = ON) ON \"default\" )ON \"default\" ;" +
                 "CREATE TABLE TRAINER_RATING(rating_id INTEGER NOT NULL identity, text VARCHAR (400) NOT NULL, rating_number DECIMAL NOT NULL, client_id INTEGER NOT NULL, trainer_id INTEGER NOT NULL, CONSTRAINT TRAINER_RATING_PK PRIMARY KEY NONCLUSTERED(rating_id) WITH(ALLOW_PAGE_LOCKS = ON, ALLOW_ROW_LOCKS = ON) ON \"default\")ON \"default\"; " +
                 "ALTER TABLE Training ADD CONSTRAINT Relation_1 FOREIGN KEY(client_id) REFERENCES Client(client_id ); " +
@@ -28,7 +45,7 @@ namespace Connective.TableGateway
                 "ALTER TABLE TRAINER_RATING ADD CONSTRAINT Relation_12 FOREIGN KEY(trainer_id) REFERENCES Trainer(trainer_id ) ;" +
                 "ALTER TABLE TRAINER_RATING ADD CONSTRAINT Relation_9 FOREIGN KEY(client_id) REFERENCES Client(client_id );";
 
-        private static void PrepareCommand(SqlCommand command, Training training)
+        private void PrepareCommand(SqlCommand command, Training training)
         {
             command.Parameters.AddWithValue("@time_from", training.TimeFrom);
             command.Parameters.AddWithValue("@time_to", training.TimeTo == null ? DBNull.Value : (object)training.TimeTo);
@@ -37,7 +54,7 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@trainer_id", training.TrainerId.HasValue ? (object)training.TrainerId.Value : DBNull.Value);
             command.Parameters.AddWithValue("@to_gender", training.ToGender);
         }
-        private static void PrepareCommandU(SqlCommand command, Training training)
+        private void PrepareCommandU(SqlCommand command, Training training)
         {
             command.Parameters.AddWithValue("@training_id", training.RecordId);
             command.Parameters.AddWithValue("@time_from", training.TimeFrom);
@@ -48,7 +65,7 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@to_gender", training.ToGender);
         }
 
-        public static int Insert(Training Training)
+        public int Insert(T Training)
         {
             Database db = new Database();
             db.Connect();
@@ -59,7 +76,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static int Update(Training Training)
+        public int Update(T Training)
         {
             Database db = new Database();
             db.Connect();
@@ -70,7 +87,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static Collection<Training> Select()
+        public Collection<T> Select()
         {
             Database db = new Database();
             db.Connect();
@@ -78,13 +95,13 @@ namespace Connective.TableGateway
             SqlCommand command = db.CreateCommand(SQL_SELECT);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Training> Categories = Read(reader);
+            Collection<T> Categories = Read(reader);
 
             db.Close();
             return Categories;
         }
 
-        public static Training Select(int id)
+        public T Select(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -93,8 +110,8 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@training_id", id);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Training> trainings = Read(reader);
-            Training training = null;
+            Collection<T> trainings = Read(reader);
+            T training = null;
             if (trainings.Count == 1)
             {
                 training = trainings[0];
@@ -103,7 +120,7 @@ namespace Connective.TableGateway
             db.Close();
             return training;
         }
-        public static Collection<Training> SelectClient(int id)
+        public Collection<T> SelectClient(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -112,13 +129,13 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@client_id", id);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Training> trainings = Read(reader);
+            Collection<T> trainings = Read(reader);
 
             db.Close();
             return trainings;
         }
 
-        public static Training SelectLast(int id)
+        public T SelectLast(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -127,8 +144,8 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@client_id", id);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Training> trainings = Read(reader);
-            Training training = null;
+            Collection<T> trainings = Read(reader);
+            T training = null;
             if (trainings.Count == 1)
             {
                 training = trainings[0];
@@ -138,7 +155,7 @@ namespace Connective.TableGateway
             return training;
         }
 
-        public static Training SelectLast()
+        public T SelectLast()
         {
             Database db = new Database();
             db.Connect();
@@ -146,8 +163,8 @@ namespace Connective.TableGateway
 
             SqlDataReader reader = db.Select(command);
 
-            Collection<Training> trainings = Read(reader);
-            Training training = null;
+            Collection<T> trainings = Read(reader);
+            T training = null;
             if (trainings.Count == 1)
             {
                 training = trainings[0];
@@ -157,7 +174,7 @@ namespace Connective.TableGateway
             return training;
         }
 
-        public static int Delete(int id)
+        public int Delete(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -169,7 +186,7 @@ namespace Connective.TableGateway
             db.Close();
             return ret;
         }
-        public static int Delete()
+        public int Delete()
         {
             Database db = new Database();
             db.Connect();
@@ -184,9 +201,9 @@ namespace Connective.TableGateway
         }
 
 
-        private static Collection<Training> Read(SqlDataReader reader)
+        private Collection<T> Read(SqlDataReader reader)
         {
-            Collection<Training> trainings = new Collection<Training>();
+            Collection<T> trainings = new Collection<T>();
 
             while (reader.Read())
             {
@@ -205,7 +222,7 @@ namespace Connective.TableGateway
                     training.TrainerId = reader.GetInt32(i);
                 }
                 training.ToGender = reader.GetString(++i);
-                trainings.Add(training);
+                trainings.Add((T)training);
             }
             return trainings;
         }

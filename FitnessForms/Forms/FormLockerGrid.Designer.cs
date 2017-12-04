@@ -56,7 +56,7 @@
             // lockerNumber
             // 
             this.lockerNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.lockerNumber.DataPropertyName = "LockerId";
+            this.lockerNumber.DataPropertyName = "RecordId";
             this.lockerNumber.HeaderText = "Locker Number";
             this.lockerNumber.Name = "lockerNumber";
             this.lockerNumber.ReadOnly = true;
@@ -87,7 +87,6 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(357, 347);
             this.Controls.Add(this.lockersGrid);
-            this.IsMdiContainer = false;
             this.Name = "FormLockerGrid";
             this.Text = "Lockers";
             this.Controls.SetChildIndex(this.lockersGrid, 0);

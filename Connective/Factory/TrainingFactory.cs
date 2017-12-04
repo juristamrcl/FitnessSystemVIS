@@ -1,4 +1,4 @@
-﻿using Connective.Abstract;
+﻿using Connective.Abstract.Interface;
 using Connective.Backup;
 using Connective.TableGateway;
 using Connective.Tables;
@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace Connective.Factory
 {
-    public class ClientFactory
+    public class TrainingFactory
     {
-        public ClientGatewayInterface<Client> GetClient() {
-            if (Configure.CLIENTREAD == 0)
+        public TrainingGatewayInterface<Training> GetTraining()
+        {
+            if (Configure.TRAININGREAD == 0)
             {
-                return ClientGateway<Client>.Instance;
+                return TrainingGateway<Training>.Instance;
             }
             else
             {
-                return ClientXMLGateway<Client>.Instance;
+                return TrainingXMLGateway<Training>.Instance;
             }
-            
+
         }
-        
     }
 }

@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace Connective.Factory
 {
-    public class ClientFactory
+    public class TicketFactory
     {
-        public ClientGatewayInterface<Client> GetClient() {
-            if (Configure.CLIENTREAD == 0)
+        public TicketGatewayInterface<Ticket> GetTicket()
+        {
+            if (Configure.TICKETREAD == 0)
             {
-                return ClientGateway<Client>.Instance;
+                return TicketGateway<Ticket>.Instance;
             }
             else
             {
-                return ClientXMLGateway<Client>.Instance;
+                return TicketXMLGateway<Ticket>.Instance;
             }
-            
+
         }
-        
     }
 }

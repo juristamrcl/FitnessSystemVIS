@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Connective.TableGateway;
+using Connective.Factory;
 
 namespace FitnessWeb
 {
@@ -17,12 +18,15 @@ namespace FitnessWeb
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            TrainerFactory trainerFactory = new TrainerFactory();
+            TrainerGateway<Trainer> trainerg = (TrainerGateway<Trainer>)trainerFactory.GetTrainer();
+
             if (Session["ID"] == null)
             {
                 Response.Redirect("~/Login.aspx");
             }
 
-            trainers = TrainerGateway.Select();
+            trainers = trainerg.Select();
             Collection<string> trainerNames = new Collection<string>();
 
             foreach(Trainer tr in trainers)
@@ -58,7 +62,7 @@ namespace FitnessWeb
                 clientsRatedTop.Style.Add("display", "inline-block");
 
                 ratedTrainer.Text = Session["ratedTrainer"].ToString();
-                var temp = TrainerGateway.SelectAVG(int.Parse(Session["ratedTrainerId"].ToString()));
+                var temp = trainerg.SelectAVG(int.Parse(Session["ratedTrainerId"].ToString()));
                 averageRating.Text = temp[0].ToString();
                 clientsRated.Text = temp[1].ToString();
                 Session["rated"] = null;
@@ -83,6 +87,9 @@ namespace FitnessWeb
 
         protected void rateConfirmButton_Click1(object sender, EventArgs e)
         {
+            TrainerRatingFactory trainerRatingFactory = new TrainerRatingFactory();
+            TrainerRatingGateway<TrainerRating> tr = (TrainerRatingGateway<TrainerRating>)trainerRatingFactory.GetTrainerRating();
+
             decimal temp;
             TrainerRating rating = new TrainerRating();
             rating.TrainerId = trainers[trainerDropdownId.SelectedIndex].RecordId;
@@ -98,7 +105,7 @@ namespace FitnessWeb
             }
             else
             {
-                TrainerRatingGateway.Insert(rating);
+                tr.Insert(rating);
 
                 Session["rated"] = "rated";
                 Session["ratedTrainer"] = trainers[trainerDropdownId.SelectedIndex].Name + " " + trainers[trainerDropdownId.SelectedIndex].Surname;

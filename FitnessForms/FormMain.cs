@@ -63,6 +63,19 @@ namespace FitnessForms
 
         private void backupToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            LockerFactory lockerFactory = new LockerFactory();
+            LockerXMLGateway<Locker> lg = (LockerXMLGateway<Locker>)lockerFactory.GetLocker();
+            TrainingFactory trainingFactory = new TrainingFactory();
+            TrainingGateway<Training> tg = (TrainingGateway<Training>)trainingFactory.GetTraining();
+            PurchaseFactory purchaseFactory = new PurchaseFactory();
+            PurchaseGateway<Purchase> pg = (PurchaseGateway<Purchase>)purchaseFactory.GetPurchase();
+            TrainerFactory trainerFactory = new TrainerFactory();
+            TrainerGateway<Trainer> trainerg = (TrainerGateway<Trainer>)trainerFactory.GetTrainer();
+            TrainerRatingFactory trainerRatingFactory = new TrainerRatingFactory();
+            TrainerRatingGateway<TrainerRating> tr = (TrainerRatingGateway<TrainerRating>)trainerRatingFactory.GetTrainerRating();
+            TicketFactory ticketFactory = new TicketFactory();
+            TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
+
             // Backup button
 
             XDocument xDoc = new XDocument();
@@ -70,68 +83,74 @@ namespace FitnessForms
 
             ClientFactory clientFactory = new ClientFactory();
             ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+
             Collection<Client> clients = cg.Select();
             XElement xClients = new XElement("Clients");
 
             foreach (var client in clients)
             {
-                xClients.Add(ClientXMLGateway.Insert(client));
+                xClients.Add(ClientXMLGateway<Client>.Instance.Insert(client));
             }
 
-            Collection<DiscountCard> cards = DiscountCardGateway.Select();
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+
+            Collection<DiscountCard> cards = dg.Select();
+
             XElement xCards = new XElement("Cards");
 
             foreach (var card in cards)
             {
-                xCards.Add(DiscountXMLGateway.Insert(card));
+                xCards.Add(DiscountXMLGateway<DiscountCard>.Instance.Insert(card));
             }
 
-            Collection<Locker> lockers = LockerGateway.Select();
+            Collection<Locker> lockers = lg.Select();
+
             XElement xLockers = new XElement("Lockers");
 
             foreach (var locker in lockers)
             {
-                xLockers.Add(LockerXMLGateway.Insert(locker));
+                xLockers.Add(LockerXMLGateway<Locker>.Instance.Insert(locker));
             }
 
-            Collection<Purchase> purchases = PurchaseGateway.Select();
+            Collection<Purchase> purchases = pg.Select();
             XElement xPurchases = new XElement("Purchases");
 
             foreach (var purchase in purchases)
             {
-                xPurchases.Add(PurchaseXMLGateway.Insert(purchase));
+                xPurchases.Add(PurchaseXMLGateway<Purchase>.Instance.Insert(purchase));
             }
 
-            Collection<Ticket> tickets = TicketGateway.Select();
+            Collection<Ticket> tickets = ticketg.Select();
             XElement xTickets = new XElement("Tickets");
 
             foreach (var ticket in tickets)
             {
-                xTickets.Add(TicketXMLGateway.Insert(ticket));
+                xTickets.Add(TicketXMLGateway<Ticket>.Instance.Insert(ticket));
             }
 
-            Collection<TrainerRating> ratings = TrainerRatingGateway.Select();
+            Collection<TrainerRating> ratings = tr.Select();
             XElement xRatings = new XElement("TrainerRatings");
 
             foreach (var rating in ratings)
             {
-                xRatings.Add(TrainerRatingXMLGateway.Insert(rating));
+                xRatings.Add(TrainerRatingXMLGateway<TrainerRating>.Instance.Insert(rating));
             }
 
-            Collection<Trainer> trainers = TrainerGateway.Select();
+            Collection<Trainer> trainers = trainerg.Select();
             XElement xTrainers = new XElement("Trainers");
 
             foreach (var trainer in trainers)
             {
-                xTrainers.Add(TrainerXMLGateway.Insert(trainer));
+                xTrainers.Add(TrainerXMLGateway<Trainer>.Instance.Insert(trainer));
             }
-            
-            Collection<Training> trainings = TrainingGateway.Select();
+
+            Collection<Training> trainings = tg.Select();
             XElement xTrainings = new XElement("Trainings");
 
             foreach (var training in trainings)
             {
-                xTrainings.Add(TrainingXMLGateway.Insert(training));
+                xTrainings.Add(TrainingXMLGateway<Training>.Instance.Insert(training));
             }
 
             xRoot.Add(xClients);
@@ -164,155 +183,55 @@ namespace FitnessForms
             if (MessageBox.Show("Do you really want to restore data from XML? Almost all online data will be lost.", "Restore",
                    MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                TrainingGateway.Delete();
-                PurchaseGateway.Delete();
-                TrainerRatingGateway.Delete();
-                TrainerGateway.Delete();
-                LockerGateway.Delete();
-                TicketGateway.Delete();
+                LockerFactory lockerFactory = new LockerFactory();
+                LockerGateway<Locker> lg = (LockerGateway<Locker>)lockerFactory.GetLocker();
+                TrainingFactory trainingFactory = new TrainingFactory();
+                TrainingGateway<Training> tg = (TrainingGateway<Training>)trainingFactory.GetTraining();
+                PurchaseFactory purchaseFactory = new PurchaseFactory();
+                PurchaseGateway<Purchase> pg = (PurchaseGateway<Purchase>)purchaseFactory.GetPurchase();
+                TrainerFactory trainerFactory = new TrainerFactory();
+                TrainerGateway<Trainer> trainerg = (TrainerGateway<Trainer>)trainerFactory.GetTrainer();
+                TrainerRatingFactory trainerRatingFactory = new TrainerRatingFactory();
+                TrainerRatingGateway<TrainerRating> tr = (TrainerRatingGateway<TrainerRating>)trainerRatingFactory.GetTrainerRating();
+                TicketFactory ticketFactory = new TicketFactory();
+                TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
+
+                tg.Delete();
+                pg.Delete();
+                tr.Delete();
+                trainerg.Delete();
+                lg.Delete();
+                ticketg.Delete();
 
                 
-                foreach (var element in LockerXMLGateway.Select())
+                foreach (var locker in lg.Select())
                 {
-                    Locker locker = new Locker()
-                    {
-                        Status = element.Attribute("Status").Value,
-                        ToGender = element.Attribute("ToGender").Value,
-                        RecordId = int.Parse(element.Attribute("Id").Value)
-                    };
-
-                    LockerGateway.Insert(locker);
+                    lg.Insert(locker);
                 }
 
-                foreach (var element in TicketXMLGateway.Select())
+                foreach (var ticket in TicketXMLGateway<Ticket>.Instance.Select())
                 {
-                    var res = 0;
-                    var dec = 0M;
-                    Ticket ticket = new Ticket()
-                    {
-                        Cost = decimal.TryParse(element.Attribute("Cost").Value, out dec) == true ? dec : 0M,
-                        Description = element.Attribute("Description").Value,
-                        Type = element.Attribute("Type").Value,
-                        Validity = int.TryParse(element.Attribute("Validity").Value, out res) == true ? res : 0
-                    };
-
-                    if (ticket.Validity == 0)
-                    {
-                        ticket.Validity = null;
-                    }
-                    TicketGateway.Insert(ticket);
+                    TicketXMLGateway<Ticket>.Instance.Insert(ticket);
                 }
                 
-                foreach (var element in TrainerXMLGateway.Select())
+                foreach (var trainer in TrainerXMLGateway<Trainer>.Instance.Select())
                 {
-                    Trainer trainer = new Trainer()
-                    {
-                        Name = element.Attribute("Name").Value,
-                        Surname = element.Attribute("Surname").Value,
-                        Mail = element.Attribute("Mail").Value,
-                        Specialization = element.Attribute("Specialization").Value,
-                        License = element.Attribute("License").Value,
-                    };
-                    if (trainer.License == "null")
-                    {
-                        trainer.License = null;
-                    }
-
-                    TrainerGateway.Insert(trainer);
+                    TrainerXMLGateway<Trainer>.Instance.Insert(trainer);
                 }
                 
-                /*foreach (var element in ClientXMLGateway.Select())
+                foreach (var purchase in PurchaseXMLGateway<Purchase>.Instance.Select())
                 {
-                    var res = 0;
-                    Client client = new Client()
-                    {
-                        Name = element.Attribute("Name").Value,
-                        Surname = element.Attribute("Surname").Value,
-                        Mail = element.Attribute("Mail").Value,
-                        Gender = element.Attribute("Gender").Value,
-                        CardId = int.TryParse(element.Attribute("CardId").Value, out res) == true ? res : 0
-                    };
-                    if (client.CardId == 0)
-                        client.CardId = null;
-
-                    ClientGateway.Insert(client);
-                }*/
-
-                foreach (var element in PurchaseXMLGateway.Select())
-                {
-                    Purchase purchase = new Purchase()
-                    {
-                        TicketId = int.Parse(element.Attribute("TicketId").Value),
-                        CardId = int.Parse(element.Attribute("CardId").Value),
-                        Date = DateTime.Parse(element.Attribute("Date").Value)
-                    };
-
-                    PurchaseGateway.Insert(purchase);
+                    PurchaseXMLGateway<Purchase>.Instance.Insert(purchase);
                 }
-                
-                foreach (var element in TrainingXMLGateway.Select())
-                {
-                    var res = 0;
-                    var dateTime = DateTime.Now;
-                    Training training = new Training()
-                    {
-                        ClientId = int.TryParse(element.Attribute("ClientId").Value, out res) == true ? res : 0,
-                        LockerId = int.TryParse(element.Attribute("LockerId").Value, out res) == true ? res : 0,
-                        TimeFrom = DateTime.TryParse(element.Attribute("TimeFrom").Value, out dateTime) ? dateTime : DateTime.Now,
-                        ToGender = element.Attribute("ToGender").Value,
-                    };
-                    if (DateTime.TryParse(element.Attribute("TimeTo").Value, out dateTime))
-                    {
-                        training.TimeTo = dateTime;
-                    }
-                    else
-                    {
-                        training.TimeTo = null;
-                    }
-                    if (int.TryParse(element.Attribute("TrainerId").Value, out res))
-                    {
-                        training.TrainerId = res;
-                    }
-                    else
-                    {
-                        training.TrainerId = 1;
-                    }
 
-                    TrainingGateway.Insert(training);
+                foreach (var training in TrainingXMLGateway<Training>.Instance.Select())
+                {
+                    TrainingXMLGateway<Training>.Instance.Insert(training);
                 }
-                
-                /*foreach (var element in DiscountXMLGateway.Select())
+               
+                foreach (var rating in TrainerRatingXMLGateway<TrainerRating>.Instance.Select())
                 {
-                    var res = 0;
-                    var dec = 0.0M;
-                    DiscountCard card = new DiscountCard()
-                    {
-                        Credit = decimal.TryParse(element.Attribute("ClientId").Value, out dec) == true ? dec : 0.0M,
-                        ClientId = int.TryParse(element.Attribute("ClientId").Value, out res) == true ? res : 0
-                    };
-                    if (card.Credit == 0.0M)
-                    {
-                        card.Credit = null;
-                    }
-                    if (card.ClientId == 0)
-                    {
-                        card.ClientId = null;
-                    }
-
-                    DiscountCardGateway.Insert(card);
-                }*/
-                
-                foreach (var element in TrainerRatingXMLGateway.Select())
-                {
-                    TrainerRating rating = new TrainerRating()
-                    {
-                        ClientId = int.Parse(element.Attribute("ClientId").Value),
-                        TrainerId = int.Parse(element.Attribute("TrainerId").Value),
-                        RatingNumber = decimal.Parse(element.Attribute("RatingNumber").Value),
-                        Text = element.Attribute("Text").Value
-                    };
-
-                    TrainerRatingGateway.Insert(rating);
+                    TrainerRatingXMLGateway<TrainerRating>.Instance.Insert(rating);
                 }
 
                 MessageBox.Show("Data restored!");

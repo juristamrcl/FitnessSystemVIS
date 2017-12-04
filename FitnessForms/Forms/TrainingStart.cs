@@ -24,9 +24,14 @@ namespace FitnessForms.Forms
         {
             ClientFactory clientFactory = new ClientFactory();
             ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+            TrainerFactory trainerFactory = new TrainerFactory();
+            TrainerGateway<Trainer> trainerg = (TrainerGateway<Trainer>)trainerFactory.GetTrainer();
+            LockerFactory lockerFactory = new LockerFactory();
+            LockerGateway<Locker> lg = (LockerGateway<Locker>)lockerFactory.GetLocker();
+
             clients = cg.SelectForTrainingStartEnd(true);
-            trainers = TrainerGateway.Select();
-            lockers = LockerGateway.Select();
+            trainers = trainerg.Select();
+            lockers = lg.Select();
 
             Collection<string> clientNames = new Collection<string>();
             foreach (Client c in clients)
@@ -72,13 +77,19 @@ namespace FitnessForms.Forms
             ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
             Client c = cg.Select(t.ClientId);
 
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+
             DiscountCard card = new DiscountCard();
             if (c.CardId != null)
             {
                 int toSetId = c.CardId ?? 0;
-                card = DiscountCardGateway.Select(toSetId);
+                card = dg.Select(toSetId);
             }
-            TrainingGateway.Insert(t);
+            TrainingFactory trainingFactory = new TrainingFactory();
+            TrainingGateway<Training> tg = (TrainingGateway<Training>)trainingFactory.GetTraining();
+
+            tg.Insert(t);
 
             if (card != null && card.Credit > 0)
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Connective.Abstract
 {
-    interface ClientGatewayInterface<T> : Gateway<T>
+    public interface ClientGatewayInterface<T> : Gateway<T>
         where T: Client
     {
     }

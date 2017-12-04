@@ -87,7 +87,6 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(409, 392);
             this.Controls.Add(this.cardsGrid);
-            this.IsMdiContainer = false;
             this.Name = "FormCardGrid";
             this.Text = "Card";
             this.Controls.SetChildIndex(this.cardsGrid, 0);

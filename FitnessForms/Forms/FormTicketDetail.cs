@@ -5,11 +5,13 @@ using System.Data;
 using System.Linq;
 using Connective.Tables;
 using Connective.TableGateway;
+using Connective.Factory;
 
 namespace FitnessForms.Forms
 {
     public partial class FormTicketDetail : FormDetail
     {
+
         private Ticket ticket;
         private bool newRecord;
 
@@ -19,10 +21,12 @@ namespace FitnessForms.Forms
         }
         public override bool OpenRecord(object primaryKey)
         {
+            TicketFactory ticketFactory = new TicketFactory();
+            TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
             if (primaryKey != null)
             {
                 int idTicket = (int)primaryKey;
-                ticket = TicketGateway.Select(idTicket);
+                ticket = ticketg.Select(idTicket);
                 newRecord = false;
             }
             else
@@ -91,16 +95,17 @@ namespace FitnessForms.Forms
 
         protected override bool SaveRecord()
         {
-
+            TicketFactory ticketFactory = new TicketFactory();
+            TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
             if (GetData())
             {
                 if (newRecord)
                 {
-                    TicketGateway.Insert(ticket);
+                    ticketg.Insert(ticket);
                 }
                 else
                 {
-                    TicketGateway.Update(ticket);
+                    ticketg.Update(ticket);
                 }
                 return true;
             }
@@ -112,7 +117,10 @@ namespace FitnessForms.Forms
 
         protected override bool DeleteRecord()
         {
-            TicketGateway.Delete(ticket.RecordId);
+            TicketFactory ticketFactory = new TicketFactory();
+            TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
+
+            ticketg.Delete(ticket.RecordId);
             return true;
         }
     }

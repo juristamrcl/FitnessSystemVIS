@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Connective.TableGateway;
 using Connective.Tables;
+using Connective.Factory;
 
 namespace FitnessForms.Forms
 {
@@ -17,7 +18,10 @@ namespace FitnessForms.Forms
         }
         protected override void RefreshData()
         {
-            Collection<Ticket> tickets = TicketGateway.Select();
+            TicketFactory ticketFactory = new TicketFactory();
+            TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
+
+            Collection<Ticket> tickets = ticketg.Select();
             BindingList<Ticket> bindingList = new BindingList<Ticket>(tickets);
             ticketsGrid.AutoGenerateColumns = false;
             ticketsGrid.DataSource = bindingList;

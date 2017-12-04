@@ -3,32 +3,48 @@ using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using Connective.Conn;
-
+using Connective.Abstract.Interface;
 
 namespace Connective.TableGateway
 {
-    public class DiscountCardGateway
+    public class DiscountGateway<T> : DiscountGatewayInterface<T>
+        where T : DiscountCard
     {
-        public static String SQL_SELECT = "SELECT * FROM Discount_card";
-        public static String SQL_SELECT_ID = "SELECT * FROM Discount_card WHERE card_id=@card_id";
-        public static String SQL_INSERT = "INSERT INTO Discount_card VALUES (@client_id, @credit)";
-        public static String SQL_UPDATE = "UPDATE Discount_card SET client_id=@client_id, credit=@credit WHERE card_id=@card_id";
-        public static String SQL_DELETE_ID = "DELETE FROM Discount_card WHERE card_id=@card_id";
-        public static String SQL_DELETE = "DELETE FROM Discount_card";
+        private static DiscountGateway<DiscountCard> instance;
+        private DiscountGateway() { }
 
-        private static void PrepareCommand(SqlCommand command, DiscountCard discountCard)
+        public static DiscountGateway<DiscountCard> Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new DiscountGateway<DiscountCard>();
+                }
+                return instance;
+            }
+        }
+
+        public String SQL_SELECT = "SELECT * FROM Discount_card";
+        public String SQL_SELECT_ID = "SELECT * FROM Discount_card WHERE card_id=@card_id";
+        public String SQL_INSERT = "INSERT INTO Discount_card VALUES (@client_id, @credit)";
+        public String SQL_UPDATE = "UPDATE Discount_card SET client_id=@client_id, credit=@credit WHERE card_id=@card_id";
+        public String SQL_DELETE_ID = "DELETE FROM Discount_card WHERE card_id=@card_id";
+        public String SQL_DELETE = "DELETE FROM Discount_card";
+
+        private void PrepareCommand(SqlCommand command, DiscountCard discountCard)
         {
             command.Parameters.AddWithValue("@client_id", discountCard.ClientId);
             command.Parameters.AddWithValue("@credit", discountCard.Credit.HasValue ? (object)discountCard.Credit.Value : DBNull.Value);
         }
-        private static void PrepareCommandU(SqlCommand command, DiscountCard discountCard)
+        private void PrepareCommandU(SqlCommand command, DiscountCard discountCard)
         {
             command.Parameters.AddWithValue("@card_id", discountCard.RecordId);
             command.Parameters.AddWithValue("@client_id", discountCard.ClientId.HasValue ? (object)discountCard.ClientId.Value : DBNull.Value);
             command.Parameters.AddWithValue("@credit", discountCard.Credit.HasValue ? (object)discountCard.Credit.Value : DBNull.Value);
         }
 
-        public static int Insert(DiscountCard DiscountCard)
+        public int Insert(T DiscountCard)
         {
             Database db = new Database();
             db.Connect();
@@ -39,7 +55,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static int Update(DiscountCard DiscountCard)
+        public int Update(T DiscountCard)
         {
             Database db = new Database();
             db.Connect();
@@ -50,7 +66,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static Collection<DiscountCard> Select()
+        public Collection<T> Select()
         {
             Database db = new Database();
             db.Connect();
@@ -58,13 +74,13 @@ namespace Connective.TableGateway
             SqlCommand command = db.CreateCommand(SQL_SELECT);
             SqlDataReader reader = db.Select(command);
 
-            Collection<DiscountCard> Categorys = Read(reader);
+            Collection<T> Categorys = Read(reader);
 
             db.Close();
             return Categorys;
         }
 
-        public static DiscountCard Select(int id)
+        public T Select(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -73,8 +89,8 @@ namespace Connective.TableGateway
             command.Parameters.AddWithValue("@card_id", id);
             SqlDataReader reader = db.Select(command);
 
-            Collection<DiscountCard> cards = Read(reader);
-            DiscountCard card = null;
+            Collection<T> cards = Read(reader);
+            T card = null;
             if (cards.Count == 1)
             {
                 card = cards[0];
@@ -84,7 +100,7 @@ namespace Connective.TableGateway
             return card;
         }
 
-        public static int Delete(int id)
+        public int Delete(int id)
         {
             Database db = new Database();
             db.Connect();
@@ -97,7 +113,7 @@ namespace Connective.TableGateway
             return ret;
         }
 
-        public static int Delete()
+        public int Delete()
         {
             Database db = new Database();
             db.Connect();
@@ -108,9 +124,9 @@ namespace Connective.TableGateway
             db.Close();
             return ret;
         }
-        private static Collection<DiscountCard> Read(SqlDataReader reader)
+        private Collection<T> Read(SqlDataReader reader)
         {
-            Collection<DiscountCard> cards = new Collection<DiscountCard>();
+            Collection<T> cards = new Collection<T>();
 
             while (reader.Read())
             {
@@ -127,7 +143,7 @@ namespace Connective.TableGateway
                     card.Credit = reader.GetDecimal(i);
                 }
 
-                cards.Add(card);
+                cards.Add((T)card);
             }
             return cards;
         }

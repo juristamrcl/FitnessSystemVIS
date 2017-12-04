@@ -19,15 +19,27 @@ namespace FitnessForms.Forms
         {
             ClientFactory clientFactory = new ClientFactory();
             ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
-            Client client = cg.Select(TrainingGateway.SelectLast().ClientId);
+            TrainingFactory trainingFactory = new TrainingFactory();
+            TrainingGateway<Training> tg = (TrainingGateway<Training>)trainingFactory.GetTraining();
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+            PurchaseFactory purchaseFactory = new PurchaseFactory();
+            PurchaseGateway<Purchase> pg = (PurchaseGateway<Purchase>)purchaseFactory.GetPurchase();
+            TicketFactory ticketFactory = new TicketFactory();
+            TicketGateway<Ticket> ticketg = (TicketGateway<Ticket>)ticketFactory.GetTicket();
+
+
+            Client client = cg.Select(tg.SelectLast().ClientId);
+
+
             clientName.Text = client.ToString();
             
             if (client.CardId != null)
             {
                 int toSetId = client.CardId ?? default(int);
-                card = DiscountCardGateway.Select(toSetId);
+                card = dg.Select(toSetId);
             }
-            Ticket t = TicketGateway.Select(PurchaseGateway.SelectLast(card.RecordId).TicketId);
+            Ticket t = ticketg.Select(pg.SelectLast(card.RecordId).TicketId);
 
             ticketType.Text = t.Type;
             credit.Text = card.Credit.ToString();
@@ -35,13 +47,16 @@ namespace FitnessForms.Forms
 
         private void acceptButton_Click(object sender, System.EventArgs e)
         {
+            DiscountFactory discountFactory = new DiscountFactory();
+            DiscountGateway<DiscountCard> dg = (DiscountGateway<DiscountCard>)discountFactory.GetCard();
+
             decimal result;
             if (decimal.TryParse(toSubstract.Text, out result))
             {
                 if (result < card.Credit)
                 {
                     card.Credit -= result;
-                    DiscountCardGateway.Update(card);
+                    dg.Update(card);
                     MessageBox.Show("Credit was updated succesfully!", "Success", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 }
                 else

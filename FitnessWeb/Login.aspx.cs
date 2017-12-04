@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Connective.TableGateway;
 using Connective.Tables;
 using Connective;
+using Connective.Factory;
 
 namespace FitnessWeb
 {
@@ -19,6 +20,9 @@ namespace FitnessWeb
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            ClientFactory clientFactory = new ClientFactory();
+            ClientGateway<Client> cg = (ClientGateway<Client>)clientFactory.GetClient();
+
             string login = String.Format("{0}", Request.Form["loginInput"]);
             string password = String.Format("{0}", Request.Form["passwordInput"]);
 
@@ -39,7 +43,7 @@ namespace FitnessWeb
             }
             else
             {
-                Client cl = ClientGateway.CheckPassword(client);
+                Client cl = cg.CheckPassword(client);
                 if (cl != null)
                 {
                     Session["ID"] = cl.RecordId;
